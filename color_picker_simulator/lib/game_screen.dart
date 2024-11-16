@@ -22,7 +22,6 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     _generateRandomColor();
-    ResultScreen.pointsAssigned = false; // Reinicia el estado al empezar una nueva ronda
   }
 
   void _generateRandomColor() {
@@ -102,85 +101,119 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Adivina el Color'),
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Text(
-                'Puntos: ${ResultScreen.totalPoints}',
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
+          // Fondo de pantalla
           Container(
-            height: 100,
-            width: 100,
             color: Color.fromARGB(255, _targetR, _targetG, _targetB),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text('Adivina el color en coordenadas RGB:'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
+          // Rectángulo negro más pequeño con contenido
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (ResultScreen.powerUps['red']! > 0)
-                    ElevatedButton(
-                      onPressed: () => _useHint('red'),
-                      child: Text('Potenciador R'),
+                  // Puntos
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Puntos: ${ResultScreen.totalPoints}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  _buildInputField(_rController, 'R'),
+                  ),
+                  // Título
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Adivina el color en coordenadas RGB:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  // Campos de entrada y botones de potenciador
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          if (ResultScreen.powerUps['red']! > 0)
+                            ElevatedButton(
+                              onPressed: () => _useHint('red'),
+                              child: Text('Potenciador R'),
+                            ),
+                          _buildInputField(_rController, 'R'),
+                        ],
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        children: [
+                          if (ResultScreen.powerUps['green']! > 0)
+                            ElevatedButton(
+                              onPressed: () => _useHint('green'),
+                              child: Text('Potenciador G'),
+                            ),
+                          _buildInputField(_gController, 'G'),
+                        ],
+                      ),
+                      SizedBox(width: 10),
+                      Column(
+                        children: [
+                          if (ResultScreen.powerUps['blue']! > 0)
+                            ElevatedButton(
+                              onPressed: () => _useHint('blue'),
+                              child: Text('Potenciador B'),
+                            ),
+                          _buildInputField(_bController, 'B'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _submitGuess,
+                    child: Text('Aceptar'),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Intentos restantes: $_attemptsLeft',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  if (_redHint.isNotEmpty || _greenHint.isNotEmpty || _blueHint.isNotEmpty)
+                    Column(
+                      children: [
+                        if (_redHint.isNotEmpty)
+                          Text(
+                            'Pista Rojo: $_redHint',
+                            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                          ),
+                        if (_greenHint.isNotEmpty)
+                          Text(
+                            'Pista Verde: $_greenHint',
+                            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                          ),
+                        if (_blueHint.isNotEmpty)
+                          Text(
+                            'Pista Azul: $_blueHint',
+                            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                          ),
+                      ],
+                    ),
                 ],
               ),
-              SizedBox(width: 10),
-              Column(
-                children: [
-                  if (ResultScreen.powerUps['green']! > 0)
-                    ElevatedButton(
-                      onPressed: () => _useHint('green'),
-                      child: Text('Potenciador G'),
-                    ),
-                  _buildInputField(_gController, 'G'),
-                ],
-              ),
-              SizedBox(width: 10),
-              Column(
-                children: [
-                  if (ResultScreen.powerUps['blue']! > 0)
-                    ElevatedButton(
-                      onPressed: () => _useHint('blue'),
-                      child: Text('Potenciador B'),
-                    ),
-                  _buildInputField(_bController, 'B'),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _submitGuess,
-            child: Text('Aceptar'),
-          ),
-          SizedBox(height: 10),
-          Text('Intentos restantes: $_attemptsLeft'),
-          if (_redHint.isNotEmpty || _greenHint.isNotEmpty || _blueHint.isNotEmpty)
-            Column(
-              children: [
-                if (_redHint.isNotEmpty) Text('Pista Rojo: $_redHint', style: TextStyle(color: Colors.red)),
-                if (_greenHint.isNotEmpty) Text('Pista Verde: $_greenHint', style: TextStyle(color: Colors.green)),
-                if (_blueHint.isNotEmpty) Text('Pista Azul: $_blueHint', style: TextStyle(color: Colors.blue)),
-              ],
             ),
+          ),
         ],
       ),
     );
@@ -192,7 +225,17 @@ class _GameScreenState extends State<GameScreen> {
       child: TextField(
         controller: controller,
         keyboardType: TextInputType.number,
-        decoration: InputDecoration(labelText: label),
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.white),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+        ),
       ),
     );
   }
