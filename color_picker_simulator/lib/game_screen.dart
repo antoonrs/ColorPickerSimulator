@@ -31,21 +31,30 @@ class _GameScreenState extends State<GameScreen> {
     _targetB = random.nextInt(256);
   }
 
+  void _useHint(String color) {
+    setState(() {
+      if (ResultScreen.powerUps[color]! > 0) {
+        ResultScreen.powerUps[color] = ResultScreen.powerUps[color]! - 1;
+        if (color == 'red') _rController.text = _targetR.toString();
+        if (color == 'green') _gController.text = _targetG.toString();
+        if (color == 'blue') _bController.text = _targetB.toString();
+      }
+    });
+  }
+
   void _submitGuess() {
     final guessR = int.tryParse(_rController.text) ?? 0;
     final guessG = int.tryParse(_gController.text) ?? 0;
     final guessB = int.tryParse(_bController.text) ?? 0;
 
     if (_attemptsLeft > 1) {
-      // Generar pistas
       setState(() {
-        _redHint = _generateHint('rojo', guessR, _targetR);
-        _greenHint = _generateHint('verde', guessG, _targetG);
-        _blueHint = _generateHint('azul', guessB, _targetB);
+        _redHint = _generateHint('Rojo', guessR, _targetR);
+        _greenHint = _generateHint('Verde', guessG, _targetG);
+        _blueHint = _generateHint('Azul', guessB, _targetB);
         _attemptsLeft--;
       });
     } else {
-      // Si se acaban los intentos, pasa a la pantalla de resultados
       Navigator.pushNamed(
         context,
         '/result',
@@ -72,7 +81,7 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Adivina el Color'),
-        automaticallyImplyLeading: false, // Elimina la flecha de retorno
+        automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -100,11 +109,38 @@ class _GameScreenState extends State<GameScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildInputField(_rController, 'R'),
+              Column(
+                children: [
+                  if (ResultScreen.powerUps['red']! > 0)
+                    ElevatedButton(
+                      onPressed: () => _useHint('red'),
+                      child: Text('Potenciador R'),
+                    ),
+                  _buildInputField(_rController, 'R'),
+                ],
+              ),
               SizedBox(width: 10),
-              _buildInputField(_gController, 'G'),
+              Column(
+                children: [
+                  if (ResultScreen.powerUps['green']! > 0)
+                    ElevatedButton(
+                      onPressed: () => _useHint('green'),
+                      child: Text('Potenciador G'),
+                    ),
+                  _buildInputField(_gController, 'G'),
+                ],
+              ),
               SizedBox(width: 10),
-              _buildInputField(_bController, 'B'),
+              Column(
+                children: [
+                  if (ResultScreen.powerUps['blue']! > 0)
+                    ElevatedButton(
+                      onPressed: () => _useHint('blue'),
+                      child: Text('Potenciador B'),
+                    ),
+                  _buildInputField(_bController, 'B'),
+                ],
+              ),
             ],
           ),
           SizedBox(height: 20),

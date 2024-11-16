@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ResultScreen extends StatelessWidget {
-  static int totalPoints = 0;
+  static int totalPoints = 0; // Puntos totales
+  static Map<String, int> powerUps = {'red': 0, 'green': 0, 'blue': 0}; // Potenciadores globales
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Resultado'),
-        automaticallyImplyLeading: false, // Elimina la flecha de retorno
+        automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -41,8 +42,6 @@ class ResultScreen extends StatelessWidget {
           Text('Color verdadero: RGB(${target[0]}, ${target[1]}, ${target[2]})'),
           SizedBox(height: 10),
           Text('Tu respuesta: RGB(${guess[0]}, ${guess[1]}, ${guess[2]})'),
-          SizedBox(height: 10),
-          Text('Diferencia total: $totalDifference puntos'),
           SizedBox(height: 10),
           Text('Puntos obtenidos: $pointsEarned'),
           SizedBox(height: 20),
