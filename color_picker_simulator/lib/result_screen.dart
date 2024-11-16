@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ResultScreen extends StatelessWidget {
-  static int totalPoints = 0; // Puntos totales
-  static bool pointsAssigned = false; // Estado de asignación de puntos
-  static Map<String, int> powerUps = {'red': 0, 'green': 0, 'blue': 0}; // Potenciadores globales
+  static int totalPoints = 0;
+  static bool pointsAssigned = false;
+  static Map<String, int> powerUps = {'red': 0, 'green': 0, 'blue': 0};
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class ResultScreen extends StatelessWidget {
     final totalDifference = difference.reduce((a, b) => a + b);
     final pointsEarned = (100 - totalDifference).clamp(0, 100);
 
-    // Asignar puntos solo si no han sido asignados
     if (!pointsAssigned) {
       totalPoints += pointsEarned;
       pointsAssigned = true;

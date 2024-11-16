@@ -17,7 +17,7 @@ class MenuScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Cierra la aplicación
+                Navigator.pop(context);
               },
               child: Text('Salir'),
             ),

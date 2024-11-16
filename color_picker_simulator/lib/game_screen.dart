@@ -13,10 +13,10 @@ class _GameScreenState extends State<GameScreen> {
   final _bController = TextEditingController();
 
   late int _targetR, _targetG, _targetB;
-  int _attemptsLeft = 3; // Intentos restantes
-  String _redHint = ''; // Pista para el rojo
-  String _greenHint = ''; // Pista para el verde
-  String _blueHint = ''; // Pista para el azul
+  int _attemptsLeft = 3;
+  String _redHint = '';
+  String _greenHint = '';
+  String _blueHint = '';
 
   @override
   void initState() {
@@ -47,7 +47,6 @@ class _GameScreenState extends State<GameScreen> {
     final guessG = int.tryParse(_gController.text) ?? 0;
     final guessB = int.tryParse(_bController.text) ?? 0;
 
-    // Calcular la diferencia
     final difference = [
       (_targetR - guessR).abs(),
       (_targetG - guessG).abs(),
@@ -58,7 +57,7 @@ class _GameScreenState extends State<GameScreen> {
 
     if (guessR == _targetR && guessG == _targetG && guessB == _targetB) {
       ResultScreen.totalPoints += pointsEarned;
-      ResultScreen.pointsAssigned = true; // Asegurar asignación única
+      ResultScreen.pointsAssigned = true;
       Navigator.pushNamed(
         context,
         '/result',
@@ -76,7 +75,7 @@ class _GameScreenState extends State<GameScreen> {
       });
     } else {
       ResultScreen.totalPoints += pointsEarned;
-      ResultScreen.pointsAssigned = true; // Asegurar asignación única
+      ResultScreen.pointsAssigned = true;
       Navigator.pushNamed(
         context,
         '/result',
@@ -103,11 +102,11 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Fondo de pantalla
+
           Container(
             color: Color.fromARGB(255, _targetR, _targetG, _targetB),
           ),
-          // Rectángulo negro más pequeño con contenido
+
           Center(
             child: Container(
               padding: EdgeInsets.all(16),

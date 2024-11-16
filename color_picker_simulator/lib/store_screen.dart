@@ -10,8 +10,8 @@ class _StoreScreenState extends State<StoreScreen> {
   void _buyPowerUp(String color) {
     if (ResultScreen.totalPoints >= 100) {
       setState(() {
-        ResultScreen.totalPoints -= 100; // Resta 100 puntos
-        ResultScreen.powerUps[color] = (ResultScreen.powerUps[color] ?? 0) + 1; // Incrementa el potenciador
+        ResultScreen.totalPoints -= 100;
+        ResultScreen.powerUps[color] = (ResultScreen.powerUps[color] ?? 0) + 1;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('¡Potenciador de $color comprado!')),
