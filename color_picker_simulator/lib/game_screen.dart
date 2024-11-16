@@ -22,6 +22,7 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     _generateRandomColor();
+    ResultScreen.pointsAssigned = false; // Reinicia el estado al empezar una nueva ronda
   }
 
   void _generateRandomColor() {
@@ -47,7 +48,27 @@ class _GameScreenState extends State<GameScreen> {
     final guessG = int.tryParse(_gController.text) ?? 0;
     final guessB = int.tryParse(_bController.text) ?? 0;
 
-    if (_attemptsLeft > 1) {
+    // Calcular la diferencia
+    final difference = [
+      (_targetR - guessR).abs(),
+      (_targetG - guessG).abs(),
+      (_targetB - guessB).abs(),
+    ];
+    final totalDifference = difference.reduce((a, b) => a + b);
+    final pointsEarned = (100 - totalDifference).clamp(0, 100);
+
+    if (guessR == _targetR && guessG == _targetG && guessB == _targetB) {
+      ResultScreen.totalPoints += pointsEarned;
+      ResultScreen.pointsAssigned = true; // Asegurar asignación única
+      Navigator.pushNamed(
+        context,
+        '/result',
+        arguments: {
+          'target': [_targetR, _targetG, _targetB],
+          'guess': [guessR, guessG, guessB],
+        },
+      );
+    } else if (_attemptsLeft > 1) {
       setState(() {
         _redHint = _generateHint('Rojo', guessR, _targetR);
         _greenHint = _generateHint('Verde', guessG, _targetG);
@@ -55,6 +76,8 @@ class _GameScreenState extends State<GameScreen> {
         _attemptsLeft--;
       });
     } else {
+      ResultScreen.totalPoints += pointsEarned;
+      ResultScreen.pointsAssigned = true; // Asegurar asignación única
       Navigator.pushNamed(
         context,
         '/result',

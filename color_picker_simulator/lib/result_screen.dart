@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ResultScreen extends StatelessWidget {
   static int totalPoints = 0; // Puntos totales
+  static bool pointsAssigned = false; // Estado de asignación de puntos
   static Map<String, int> powerUps = {'red': 0, 'green': 0, 'blue': 0}; // Potenciadores globales
 
   @override
@@ -15,10 +16,14 @@ class ResultScreen extends StatelessWidget {
       (target[1] - guess[1]).abs(),
       (target[2] - guess[2]).abs(),
     ];
-
     final totalDifference = difference.reduce((a, b) => a + b);
-    int pointsEarned = (100 - totalDifference).clamp(0, 100);
-    totalPoints += pointsEarned;
+    final pointsEarned = (100 - totalDifference).clamp(0, 100);
+
+    // Asignar puntos solo si no han sido asignados
+    if (!pointsAssigned) {
+      totalPoints += pointsEarned;
+      pointsAssigned = true;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -47,6 +52,7 @@ class ResultScreen extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
+              ResultScreen.pointsAssigned = false; // Reinicia el estado para la nueva ronda
               Navigator.pushReplacementNamed(context, '/game');
             },
             child: Text('Volver a jugar'),
