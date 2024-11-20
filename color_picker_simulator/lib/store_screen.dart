@@ -26,45 +26,54 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Tienda'),
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Text(
+      appBar:PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Tienda',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text(
                 'Puntos: ${ResultScreen.totalPoints}',
                 style: TextStyle(fontSize: 18),
               ),
-            ),
+            ],
           ),
-        ],
+          centerTitle: true,
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Compra potenciadores (100 puntos cada uno)', style: TextStyle(fontSize: 16)),
-          SizedBox(height: 20),
-          _buildPowerUpButton('Rojo', 'red'),
-          _buildPowerUpButton('Verde', 'green'),
-          _buildPowerUpButton('Azul', 'blue'),
-          SizedBox(height: 20),
-          Text(
-            'Potenciadores disponibles:',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          Text('Rojo: ${ResultScreen.powerUps['red']}'),
-          Text('Verde: ${ResultScreen.powerUps['green']}'),
-          Text('Azul: ${ResultScreen.powerUps['blue']}'),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Volver al menú'),
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Compra potenciadores (100 puntos cada uno)', style: TextStyle(fontSize: 16)),
+            SizedBox(height: 20),
+            _buildPowerUpButton('Rojo', 'red'),
+            SizedBox(height: 20),
+            _buildPowerUpButton('Verde', 'green'),
+            SizedBox(height: 20),
+            _buildPowerUpButton('Azul', 'blue'),
+            SizedBox(height: 20),
+            Text(
+              'Potenciadores disponibles:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Text('Rojo: ${ResultScreen.powerUps['red']}'),
+            Text('Verde: ${ResultScreen.powerUps['green']}'),
+            Text('Azul: ${ResultScreen.powerUps['blue']}'),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Volver al menú'),
+            ),
+          ],
+        ),
       ),
     );
   }

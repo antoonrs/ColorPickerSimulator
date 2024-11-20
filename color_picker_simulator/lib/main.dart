@@ -5,10 +5,10 @@ import 'result_screen.dart';
 import 'store_screen.dart';
 
 void main() {
-  runApp(ColorPickerSimulator());
+  runApp(ColorPicker2());
 }
 
-class ColorPickerSimulator extends StatelessWidget {
+class ColorPicker2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
