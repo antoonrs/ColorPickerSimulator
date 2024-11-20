@@ -8,9 +8,11 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  final _rController = TextEditingController();
-  final _gController = TextEditingController();
-  final _bController = TextEditingController();
+  double _rValue = 0.0, _gValue = 0.0, _bValue = 0.0;
+
+  //final _rController = TextEditingController();
+  //final _gController = TextEditingController();
+  //final _bController = TextEditingController();
 
   late int _targetR, _targetG, _targetB;
   int _attemptsLeft = 3;
@@ -35,17 +37,17 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       if (ResultScreen.powerUps[color]! > 0) {
         ResultScreen.powerUps[color] = ResultScreen.powerUps[color]! - 1;
-        if (color == 'red') _rController.text = _targetR.toString();
-        if (color == 'green') _gController.text = _targetG.toString();
-        if (color == 'blue') _bController.text = _targetB.toString();
+        if (color == 'red') _rValue = _targetR.toDouble();
+        if (color == 'green') _gValue = _targetG.toDouble();
+        if (color == 'blue') _bValue = _targetB.toDouble();
       }
     });
   }
 
   void _submitGuess() {
-    final guessR = int.tryParse(_rController.text) ?? 0;
-    final guessG = int.tryParse(_gController.text) ?? 0;
-    final guessB = int.tryParse(_bController.text) ?? 0;
+    final guessR = _rValue.round();
+    final guessG = _gValue.round();
+    final guessB = _bValue.round();
 
     final difference = [
       (_targetR - guessR).abs(),
@@ -152,7 +154,12 @@ class _GameScreenState extends State<GameScreen> {
                               onPressed: () => _useHint('red'),
                               child: Text('Potenciador R'),
                             ),
-                          _buildInputField(_rController, 'R'),
+                          _buildSlider('Rojo', _rValue, (value){
+                            setState(() {
+                              _rValue = value;
+                            });
+                          }),
+                          //_buildInputField(_rController, 'R'),
                         ],
                       ),
                       SizedBox(width: 10),
@@ -163,7 +170,12 @@ class _GameScreenState extends State<GameScreen> {
                               onPressed: () => _useHint('green'),
                               child: Text('Potenciador G'),
                             ),
-                          _buildInputField(_gController, 'G'),
+                          _buildSlider('Verde', _gValue, (value){
+                            setState(() {
+                              _gValue = value;
+                            });
+                          }),
+                          //_buildInputField(_gController, 'G'),
                         ],
                       ),
                       SizedBox(width: 10),
@@ -174,7 +186,12 @@ class _GameScreenState extends State<GameScreen> {
                               onPressed: () => _useHint('blue'),
                               child: Text('Potenciador B'),
                             ),
-                          _buildInputField(_bController, 'B'),
+                          _buildSlider('Azul', _bValue, (value){
+                            setState(() {
+                              _bValue = value;
+                            });
+                          }),
+                          //_buildInputField(_bController, 'B'),
                         ],
                       ),
                     ],
@@ -236,6 +253,30 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSlider(String label, double value, Function(double) onChanged) {
+    return Column(
+      children: [
+        Text(
+          '$label: ${value.round()}',
+          style: TextStyle(color: Colors.white),
+        ),
+        Slider(
+          value: value,
+          min: 0,
+          max: 255,
+          divisions: 255,
+          label: value.round().toString(),
+          onChanged: onChanged,
+          activeColor: label == 'Rojo'
+            ? Colors.red
+              : label == 'Verde'
+            ? Colors.green
+              : Colors.blue,
+        ),
+      ],
     );
   }
 }
