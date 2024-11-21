@@ -35,8 +35,7 @@ class _ColorPickerSimulator extends State<ColorPickerSimulator> {
         : _buildLightTheme(),
       initialRoute: '/',
       routes: {
-        '/': (context) =>
-            MenuScreen(toggleTheme: _toggleTheme, isDarkMode: _isDarkMode),
+        '/': (context) => MenuScreen(toggleTheme: _toggleTheme, isDarkMode: _isDarkMode),
         '/game': (context) => GameScreen(),
         '/result': (context) => ResultScreen(),
         '/store': (context) => StoreScreen(),
