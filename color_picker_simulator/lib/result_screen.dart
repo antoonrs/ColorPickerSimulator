@@ -40,26 +40,23 @@ class ResultScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar:PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: AppBar(
+      appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Resultado',
+                'Result',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
-                'Puntos: $totalPoints',
+                'Points: $totalPoints',
                 style: TextStyle(fontSize: 18),
               ),
             ],
           ),
           centerTitle: true,
         ),
-      ),
 
       body: Center(
         child: Column(
@@ -68,7 +65,7 @@ class ResultScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
-                Text('Color verdadero: RGB(${target[0]}, ${target[1]}, ${target[2]})'),
+                Text('True color: RGB(${target[0]}, ${target[1]}, ${target[2]})'),
                 SizedBox(width: 10),
                 Container(
                     width:40,
@@ -85,7 +82,7 @@ class ResultScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Tu respuesta: RGB(${guess[0]}, ${guess[1]}, ${guess[2]})'),
+                Text('Your answer: RGB(${guess[0]}, ${guess[1]}, ${guess[2]})'),
                 SizedBox(width:10),
                 Container(
                   width: 40,
@@ -98,28 +95,49 @@ class ResultScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10),
-            Text('Puntos obtenidos: $pointsEarned'),
+            Text('Points earned: $pointsEarned'),
             SizedBox(height: 20),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 ResultScreen.pointsAssigned = false; // Reinicia el estado para la nueva ronda
                 Navigator.pushReplacementNamed(context, '/game');
               },
-              child: Text('Volver a jugar'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(10), // Para eliminar el padding
+              ),
+              label: Text("Retry"),
+              icon: Icon(
+                  Icons.videogame_asset_rounded,
+                  color: Colors.red
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/store');
               },
-              child: Text('Ir a la Tienda'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(10), // Para eliminar el padding
+              ),
+              label: Text("Shop"),
+              icon: Icon(
+                  Icons.shop,
+                  color: Colors.green
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () {
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               },
-              child: Text('Volver al Menú'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(10), // Para eliminar el padding
+              ),
+              label: Text("Menu"),
+              icon: Icon(
+                  Icons.home,
+                  color: Colors.blue
+              ),
             ),
           ],
         ),

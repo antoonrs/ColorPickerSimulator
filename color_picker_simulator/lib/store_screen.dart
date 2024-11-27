@@ -14,11 +14,11 @@ class _StoreScreenState extends State<StoreScreen> {
         ResultScreen.powerUps[color] = (ResultScreen.powerUps[color] ?? 0) + 1;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('¡Potenciador de $color comprado!')),
+        SnackBar(content: Text('¡$color clue purchased!')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No tienes suficientes puntos')),
+        SnackBar(content: Text('You don´t have enough points')),
       );
     }
   }
@@ -26,62 +26,58 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: AppBar(
-          automaticallyImplyLeading: false,
+      appBar: AppBar(
           title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Tienda',
+                'Shop',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
-                'Puntos: ${ResultScreen.totalPoints}',
+                'Points: ${ResultScreen.totalPoints}',
                 style: TextStyle(fontSize: 18),
               ),
             ],
           ),
           centerTitle: true,
         ),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Compra potenciadores (100 puntos cada uno)', style: TextStyle(fontSize: 16)),
+            Text('Buy a clue',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              )
+            ),
             SizedBox(height: 20),
-            _buildPowerUpButton('Rojo', 'red'),
+            _buildPowerUpButton('Red', 'red', Colors.red),
             SizedBox(height: 20),
-            _buildPowerUpButton('Verde', 'green'),
+            _buildPowerUpButton('Green', 'green', Colors.green),
             SizedBox(height: 20),
-            _buildPowerUpButton('Azul', 'blue'),
+            _buildPowerUpButton('Blue', 'blue', Colors.blue),
             SizedBox(height: 20),
             Text(
-              'Potenciadores disponibles:',
+              'Available clues:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            Text('Rojo: ${ResultScreen.powerUps['red']}'),
-            Text('Verde: ${ResultScreen.powerUps['green']}'),
-            Text('Azul: ${ResultScreen.powerUps['blue']}'),
+            Text('Red: ${ResultScreen.powerUps['red']}'),
+            Text('Green: ${ResultScreen.powerUps['green']}'),
+            Text('Blue: ${ResultScreen.powerUps['blue']}'),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Volver al menú'),
-            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPowerUpButton(String label, String color) {
+  Widget _buildPowerUpButton(String label, String colorPurchased, Color color) {
     return ElevatedButton(
-      onPressed: () => _buyPowerUp(color),
-      child: Text('Comprar potenciador $label'),
+      onPressed: () => _buyPowerUp(colorPurchased),
+      child: Text('$label clue'),
+      style: ElevatedButton.styleFrom(backgroundColor: color),
     );
   }
 }

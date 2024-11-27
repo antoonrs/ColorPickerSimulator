@@ -70,9 +70,9 @@ class _GameScreenState extends State<GameScreen> {
       );
     } else if (_attemptsLeft > 1) {
       setState(() {
-        _redHint = _generateHint('Rojo', guessR, _targetR);
-        _greenHint = _generateHint('Verde', guessG, _targetG);
-        _blueHint = _generateHint('Azul', guessB, _targetB);
+        _redHint = _generateHint('Red', guessR, _targetR);
+        _greenHint = _generateHint('Green', guessG, _targetG);
+        _blueHint = _generateHint('Blue', guessB, _targetB);
         _attemptsLeft--;
       });
     } else {
@@ -91,11 +91,11 @@ class _GameScreenState extends State<GameScreen> {
 
   String _generateHint(String color, int guess, int target) {
     if (guess < target) {
-      return 'El $color debe ser más alto';
+      return '$color is higher';
     } else if (guess > target) {
-      return 'El $color debe ser más bajo';
+      return '$color is lower';
     } else {
-      return 'El $color es correcto';
+      return '$color is correct';
     }
   }
 
@@ -124,7 +124,7 @@ class _GameScreenState extends State<GameScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Puntos: ${ResultScreen.totalPoints}',
+                      'Points: ${ResultScreen.totalPoints}',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -136,7 +136,7 @@ class _GameScreenState extends State<GameScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Adivina el color en coordenadas RGB:',
+                      'Guess the color in RGB:',
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -152,9 +152,9 @@ class _GameScreenState extends State<GameScreen> {
                           if (ResultScreen.powerUps['red']! > 0)
                             ElevatedButton(
                               onPressed: () => _useHint('red'),
-                              child: Text('Potenciador R'),
+                              child: Text('Red clue'),
                             ),
-                          _buildSlider('Rojo', _rValue, (value){
+                          _buildSlider('Red', Colors.red, _rValue, (value){
                             setState(() {
                               _rValue = value;
                             });
@@ -168,9 +168,9 @@ class _GameScreenState extends State<GameScreen> {
                           if (ResultScreen.powerUps['green']! > 0)
                             ElevatedButton(
                               onPressed: () => _useHint('green'),
-                              child: Text('Potenciador G'),
+                              child: Text('Green clue'),
                             ),
-                          _buildSlider('Verde', _gValue, (value){
+                          _buildSlider('Green', Colors.green, _gValue, (value){
                             setState(() {
                               _gValue = value;
                             });
@@ -184,9 +184,9 @@ class _GameScreenState extends State<GameScreen> {
                           if (ResultScreen.powerUps['blue']! > 0)
                             ElevatedButton(
                               onPressed: () => _useHint('blue'),
-                              child: Text('Potenciador B'),
+                              child: Text('Blue clue'),
                             ),
-                          _buildSlider('Azul', _bValue, (value){
+                          _buildSlider('Blue', Colors.blue, _bValue, (value){
                             setState(() {
                               _bValue = value;
                             });
@@ -199,11 +199,11 @@ class _GameScreenState extends State<GameScreen> {
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _submitGuess,
-                    child: Text('Aceptar'),
+                    child: Text('OK'),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Intentos restantes: $_attemptsLeft',
+                    'Attempts left: $_attemptsLeft',
                     style: TextStyle(color: Colors.white),
                   ),
                   if (_redHint.isNotEmpty || _greenHint.isNotEmpty || _blueHint.isNotEmpty)
@@ -211,17 +211,17 @@ class _GameScreenState extends State<GameScreen> {
                       children: [
                         if (_redHint.isNotEmpty)
                           Text(
-                            'Pista Rojo: $_redHint',
+                            'Red clue: $_redHint',
                             style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                           ),
                         if (_greenHint.isNotEmpty)
                           Text(
-                            'Pista Verde: $_greenHint',
+                            'Green clue: $_greenHint',
                             style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
                           ),
                         if (_blueHint.isNotEmpty)
                           Text(
-                            'Pista Azul: $_blueHint',
+                            'Blue clue: $_blueHint',
                             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
                           ),
                       ],
@@ -256,7 +256,7 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  Widget _buildSlider(String label, double value, Function(double) onChanged) {
+  Widget _buildSlider(String label, Color color, double value, Function(double) onChanged) {
     return Column(
       children: [
         Text(
@@ -270,11 +270,7 @@ class _GameScreenState extends State<GameScreen> {
           divisions: 255,
           label: value.round().toString(),
           onChanged: onChanged,
-          activeColor: label == 'Rojo'
-            ? Colors.red
-              : label == 'Verde'
-            ? Colors.green
-              : Colors.blue,
+          activeColor: color
         ),
       ],
     );
