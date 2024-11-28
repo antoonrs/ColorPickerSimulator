@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:color_picker_simulator/settings_screen.dart';
 import 'package:color_picker_simulator/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MenuScreen extends StatelessWidget {
   final Function(bool) toggleTheme;
@@ -12,7 +15,7 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     decoration: const BoxDecoration(
       image: DecorationImage(
-        image: AssetImage('/images/bg.png'),
+        image: AssetImage('assets/images/bg.png'),
         fit: BoxFit.cover,
       ),
     ),
@@ -35,8 +38,8 @@ class MenuScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  '/images/main-title.png',
+                Image(
+                  image: AssetImage('assets/images/main-title.png'),
                   width: 400,
                   height: 150,
                   fit: BoxFit.cover,
@@ -109,7 +112,11 @@ class MenuScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pop(context);
+                    if(Platform.isAndroid) {
+                      SystemNavigator.pop();
+                    } else {
+                      exit(0);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.all(10),

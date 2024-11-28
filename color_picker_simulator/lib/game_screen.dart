@@ -144,56 +144,51 @@ class _GameScreenState extends State<GameScreen> {
                     ),
                   ),
                   // Campos de entrada y botones de potenciador
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          if (ResultScreen.powerUps['red']! > 0)
-                            ElevatedButton(
-                              onPressed: () => _useHint('red'),
-                              child: Text('Red clue'),
-                            ),
-                          _buildSlider('Red', Colors.red, _rValue, (value){
-                            setState(() {
-                              _rValue = value;
-                            });
-                          }),
-                          //_buildInputField(_rController, 'R'),
-                        ],
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        children: [
-                          if (ResultScreen.powerUps['green']! > 0)
-                            ElevatedButton(
-                              onPressed: () => _useHint('green'),
-                              child: Text('Green clue'),
-                            ),
-                          _buildSlider('Green', Colors.green, _gValue, (value){
-                            setState(() {
-                              _gValue = value;
-                            });
-                          }),
-                          //_buildInputField(_gController, 'G'),
-                        ],
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        children: [
-                          if (ResultScreen.powerUps['blue']! > 0)
-                            ElevatedButton(
-                              onPressed: () => _useHint('blue'),
-                              child: Text('Blue clue'),
-                            ),
-                          _buildSlider('Blue', Colors.blue, _bValue, (value){
-                            setState(() {
-                              _bValue = value;
-                            });
-                          }),
-                          //_buildInputField(_bController, 'B'),
-                        ],
-                      ),
+                      if (ResultScreen.powerUps['red']! > 0)
+                        ElevatedButton(
+                          onPressed: () => _useHint('red'),
+                          child: Text('Red clue'),
+                        ),
+                      _buildSlider('Red', Colors.red, _rValue, (value){
+                        setState(() {
+                          _rValue = value;
+                        });
+                      }),
+                      //_buildInputField(_rController, 'R'),
+                    ],
+                  ),
+                  SizedBox(width: 10),
+                  Column(
+                    children: [
+                      if (ResultScreen.powerUps['green']! > 0)
+                        ElevatedButton(
+                          onPressed: () => _useHint('green'),
+                          child: Text('Green clue'),
+                        ),
+                      _buildSlider('Green', Colors.green, _gValue, (value){
+                        setState(() {
+                          _gValue = value;
+                        });
+                      }),
+                      //_buildInputField(_gController, 'G'),
+                    ],
+                  ),
+                  SizedBox(width: 10),
+                  Column(
+                    children: [
+                      if (ResultScreen.powerUps['blue']! > 0)
+                        ElevatedButton(
+                          onPressed: () => _useHint('blue'),
+                          child: Text('Blue clue'),
+                        ),
+                      _buildSlider('Blue', Colors.blue, _bValue, (value){
+                        setState(() {
+                          _bValue = value;
+                        });
+                      }),
+                      //_buildInputField(_bController, 'B'),
                     ],
                   ),
                   SizedBox(height: 20),
